@@ -77,7 +77,10 @@ const vsSource = `
       current = diff;
     }
 
-    vColor = normalize(sumColor + sumMetrics);
+    // Clamp colors to [0,1] for visible output
+    vec3 colorSum = sumColor + sumMetrics;
+    vColor = clamp(colorSum, 0.0, 1.0);
+
     gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
   }
 `;
@@ -273,7 +276,6 @@ function render(time) {
 }
 
 requestAnimationFrame(render);
-
 </script>
 </body>
 </html>
